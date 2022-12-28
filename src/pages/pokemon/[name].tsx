@@ -1,7 +1,13 @@
 import { useRouter } from "next/router";
 import React from "react";
 import Image from "next/image";
-import { IContext, IInitialPokemon, ITypes, PokemonSize } from "../../model";
+import {
+  IContext,
+  IInitialPokemon,
+  IStat,
+  ITypes,
+  PokemonSize,
+} from "../../model";
 import { handlePokeId } from "../../utils/helper";
 import { pokemonApi } from "../../services/pokemon";
 
@@ -9,15 +15,15 @@ function Pokemon({ initialPokemon }: { initialPokemon: IInitialPokemon }) {
   const router = useRouter();
   const pokeIndex = handlePokeId(initialPokemon);
 
-  const renderTypes: any = () =>
+  const renderTypes = () =>
     initialPokemon.types.map((type: ITypes) => (
       <li className="bg-slate-600 rounded m-1 p-1 " key={type.slot}>
         {type.type.name}
       </li>
     ));
 
-  const renderStats: any = () =>
-    initialPokemon.stats.map((stat: any, index: number) => (
+  const renderStats = () =>
+    initialPokemon.stats.map((stat: IStat, index: number) => (
       <div className="bg-slate-600 rounded m-1 p-1" key={index}>
         {stat?.stat.name}: {stat.base_stat}
       </div>
