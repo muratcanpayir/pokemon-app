@@ -1,15 +1,14 @@
 import { useEffect, useState } from "react";
 import Pokemon from "../components/Pokemon";
+import { Search } from "../components/search";
 import { IPokemon, IPokemons } from "../model";
 
 export default function Home() {
-  const [pokemons, setPokemons] = useState<IPokemons>();
+  const [pokemons, setPokemons] = useState<any>();
   const [offSet, setOffset] = useState<number>(0);
 
-  console.log("pokemons", pokemons);
-
   useEffect(() => {
-    fetch("https://pokeapi.co/api/v2/pokemon")
+    fetch(`https://pokeapi.co/api/v2/pokemon`)
       .then((res) => res.json())
       .then((res) => setPokemons(res));
   }, []);
@@ -22,14 +21,16 @@ export default function Home() {
         setPokemons(res);
       });
   };
+
   return (
     <>
       <title>Pokedex</title>
       <header className="bg-slate-800 py-3">
-        <h1 className="text-4xl text-center text-slate-400">POKEDEX</h1>
+        <h1 className="text-4xl text-center text-amber-400">POKEDEX</h1>
       </header>
+
       <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-10 p-5 bg-slate-600">
-        {pokemons?.results.map((pokemon: IPokemon, index: number) => (
+        {pokemons?.results?.map((pokemon: IPokemon, index: number) => (
           <Pokemon
             key={pokemon.name}
             pokemon={pokemon}
@@ -50,7 +51,7 @@ export default function Home() {
         >
           prev
         </button>
-        xs
+
         <button
           className="px-3 py-1 bg-slate-900 text-slate-400"
           disabled={!pokemons?.next}

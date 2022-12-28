@@ -14,6 +14,7 @@ export interface IInitialPokemon {
   id: number;
   types: ITypes[];
   name: string;
+  stats: any;
 }
 
 export interface ITypes {
