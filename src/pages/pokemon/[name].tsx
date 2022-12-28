@@ -1,13 +1,12 @@
 import { useRouter } from "next/router";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Image from "next/image";
-import { IContext, IInitialPokemon, ITypes } from "../../model";
+import { IContext, IInitialPokemon, ITypes, PokemonSize } from "../../model";
 import { handlePokeId } from "../../utils/helper";
+import { pokemonApi } from "../../services/pokemon";
 
 function Pokemon({ initialPokemon }: { initialPokemon: IInitialPokemon }) {
-  // const [search, setSearch] = useState<string>("");
   const router = useRouter();
-
   const pokeIndex = handlePokeId(initialPokemon);
 
   const renderTypes: any = () =>
@@ -24,13 +23,6 @@ function Pokemon({ initialPokemon }: { initialPokemon: IInitialPokemon }) {
       </div>
     ));
 
-  // const handleSearch = () => {
-  //   fetch(`https://pokeapi.co/api/v2/pokemon/${search}`)
-  //     .then((res) => res.json())
-  //     .then((res) => (initialPokemon = res));
-  //   window.location.reload();
-  // };
-
   return (
     <>
       <title>{initialPokemon.name}</title>
@@ -39,23 +31,7 @@ function Pokemon({ initialPokemon }: { initialPokemon: IInitialPokemon }) {
           <h1 className="text-4xl text-center text-amber-400">POKEDEX</h1>
         </div>
       </header>
-      {/* <form className="flex justify-center p-5">
-        <input
-          type="text"
-          placeholder="Ara"
-          className="input input-bordered input-primary w-full max-w-xs"
-          onChange={(e: any) => setSearch(e.target.value)}
-        />
-        <button
-          onClick={(e: any) => {
-            e.preventDefault();
-            handleSearch();
-          }}
-          className="ml-5"
-        >
-          Ara
-        </button>
-      </form> */}
+
       <div className="flex flex-col justify-start items-center bg-amber-400 h-screen">
         <span className="text-3xl text-center text-slate-900 mt-5 font-bold">
           #{pokeIndex} {initialPokemon.name}
@@ -63,8 +39,8 @@ function Pokemon({ initialPokemon }: { initialPokemon: IInitialPokemon }) {
         <Image
           className="mt-10"
           alt={initialPokemon.name}
-          width={200}
-          height={200}
+          width={PokemonSize.detail}
+          height={PokemonSize.detail}
           src={`https://assets.pokemon.com/assets/cms2/img/pokedex/detail/${pokeIndex}.png`}
         />
         <div className="text-slate-900 mt-10">
@@ -86,9 +62,7 @@ export default Pokemon;
 
 export async function getServerSideProps(context: IContext) {
   console.log("context", context);
-  const response = await fetch(
-    `https://pokeapi.co/api/v2/pokemon/${context.query.name}`
-  );
+  const response = await fetch(`${pokemonApi}${context.query.name}`);
   const initialPokemon = await response.json();
 
   return {

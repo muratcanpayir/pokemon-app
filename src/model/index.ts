@@ -25,3 +25,13 @@ export interface ITypes {
 export interface IContext {
   query: { name: string };
 }
+
+export enum OffSet {
+  defaultOffSet = 0,
+  pageOffSet = 20,
+}
+
+export enum PokemonSize {
+  homePage = 150,
+  detail = 200,
+}

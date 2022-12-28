@@ -5,10 +5,10 @@ type TProps = {
 };
 export const Search = ({ setSearch }: TProps) => {
   return (
-    <form className="flex justify-center p-5">
+    <form className="flex justify-center p-5 bg-slate-800">
       <input
         type="text"
-        placeholder="Ara"
+        placeholder="Search"
         className="input input-bordered input-primary w-full max-w-xs"
         onChange={(e) => {
           setSearch(e.target.value);
@@ -20,7 +20,7 @@ export const Search = ({ setSearch }: TProps) => {
         }}
         className="ml-5"
       >
-        Ara
+        Search
       </button>
     </form>
   );

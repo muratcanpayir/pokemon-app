@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react";
 import Pokemon from "../components/Pokemon";
-import { Search } from "../components/search";
-import { IPokemon, IPokemons } from "../model";
+import { IPokemon, OffSet } from "../model";
+import { pokemonApi } from "../services/pokemon";
 
 export default function Home() {
   const [pokemons, setPokemons] = useState<any>();
-  const [offSet, setOffset] = useState<number>(0);
+  const [offSet, setOffset] = useState<number>(OffSet.defaultOffSet);
 
   useEffect(() => {
-    fetch(`https://pokeapi.co/api/v2/pokemon`)
+    fetch(pokemonApi)
       .then((res) => res.json())
       .then((res) => setPokemons(res));
   }, []);
@@ -17,7 +17,9 @@ export default function Home() {
     fetch(url)
       .then((res) => res.json())
       .then((res) => {
-        setOffset(isNext ? offSet + 20 : offSet - 20);
+        setOffset(
+          isNext ? offSet + OffSet.pageOffSet : offSet - OffSet.pageOffSet
+        );
         setPokemons(res);
       });
   };
@@ -38,7 +40,7 @@ export default function Home() {
           />
         ))}
       </div>
-      <div className="bg-slate-800 text-center">
+      <div className="bg-slate-800 text-center gap-5">
         <button
           className="px-3 py-1 bg-slate-900 text-slate-400"
           disabled={!pokemons?.previous}
